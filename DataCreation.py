@@ -60,7 +60,7 @@ GWQ[0].append("GinniIndex")
 for i in GWQ:
         for j in Ginni:
             if len(i)<8:
-                if i[2].lower()==j[0].lower():
+                if i[2].lower()==j[0].lower() and i[3]=='2010':
                     i.append(j[1])
 
 
@@ -82,7 +82,7 @@ ginniCount=0
 for i in TotalData:
     if i[6]!="":
         SDPcount+=1
-    if i[7]!="":
+    if i[7]!="-":
         ginniCount+=1
 
 print(SDPcount)
