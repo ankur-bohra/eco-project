@@ -7,7 +7,7 @@ csvreader = csv.reader(file)
 GWQ = []
 for row in csvreader:
     GWQ.append(row[:5]+[row[23]])
-file = open('Net_State_Domestic_Product.xlsx - Report 1.csv')
+file = open('NSDPs.csv')
 csvreader = csv.reader(file)
 SDP = []
 for row in csvreader:
@@ -67,7 +67,23 @@ for i in GWQ:
 for i in GWQ:
     if len(i)<8:
         i.append("-")
-print(GWQ[1])
 with open("TotalData.csv","w+") as file:
     write=csv.writer(file)
     write.writerows(GWQ)
+
+file = open('TotalData.csv')
+csvreader = csv.reader(file)
+TotalData = []
+for row in csvreader:
+    TotalData.append(row)
+
+SDPcount=0
+ginniCount=0
+for i in TotalData:
+    if i[6]!="":
+        SDPcount+=1
+    if i[7]!="":
+        ginniCount+=1
+
+print(SDPcount)
+print(ginniCount)
