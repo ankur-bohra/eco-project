@@ -70,20 +70,3 @@ for i in GWQ:
 with open("TotalData.csv","w+") as file:
     write=csv.writer(file)
     write.writerows(GWQ)
-
-file = open('TotalData.csv')
-csvreader = csv.reader(file)
-TotalData = []
-for row in csvreader:
-    TotalData.append(row)
-
-SDPcount=0
-ginniCount=0
-for i in TotalData:
-    if i[6]!="":
-        SDPcount+=1
-    if i[7]!="-":
-        ginniCount+=1
-
-print(SDPcount)
-print(ginniCount)
