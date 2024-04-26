@@ -145,6 +145,7 @@ Gujarat,Panch Mahals,0.23
 Gujarat,Banaskantha,0.22
 Gujarat,Patan,0.33
 Gujarat,Dahod,0.19
+Gujarat,Tapi,
 Haryana,Jhajjar,0.25
 Haryana,Gurgaon,0.42
 Haryana,Sonipat,0.24
@@ -165,6 +166,7 @@ Haryana,Panipat,0.28
 Haryana,Yamunanagar,0.26
 Haryana,Sirsa,0.31
 Haryana,Fatehabad,0.30
+Haryana,Palwal,
 Himachal Pradesh,Shimla,0.28
 Himachal Pradesh,Kinnaur,0.33
 Himachal Pradesh,Kangra,0.30
@@ -191,6 +193,14 @@ Jammu and Kashmir,Budgam,0.19
 Jammu and Kashmir,Srinagar,0.28
 Jammu and Kashmir,Udhampur,0.26
 Jammu and Kashmir,Doda,0.21
+Jammu and Kashmir,Samba,
+Jammu and Kashmir,Reasi,
+Jammu and Kashmir,Ramban,
+Jammu and Kashmir,Kishtwar,
+Jammu and Kashmir,Kulgam,
+Jammu and Kashmir,Shopian,
+Jammu and Kashmir,Ganderbal,
+Jammu and Kashmir,Bandipora,
 Jharkhand,Palamu,0.36
 Jharkhand,Bokaro,0.29
 Jharkhand,Hazaribagh,0.24
@@ -213,6 +223,8 @@ Jharkhand,Dumka,0.23
 Jharkhand,Sahibganj,0.23
 Jharkhand,Ramgarh,0.18
 Jharkhand,Pashchimi Singhbhum,0.19
+Jharkhand,Simdega,
+Jharkhand,Saraikela Kharsawan,
 Karnataka,Udupi,0.32
 Karnataka,Bangalore,0.36
 Karnataka,Kodagu,0.26
@@ -242,6 +254,7 @@ Karnataka,Gadag,0.26
 Karnataka,Gulbarga,0.23
 Karnataka,Koppal,0.26
 Karnataka,Bagalkot,0.27
+Karnataka,Yadgir,
 Kerala,Idukki,0.40
 Kerala,Thiruvananthapuram,0.36
 Kerala,Kottayam,0.37
@@ -341,6 +354,7 @@ Maharashtra,Washim,0.23
 Maharashtra,Chandrapur,0.30
 Maharashtra,Buldana,0.25
 Maharashtra,Parbhani,0.25
+Maharashtra,Mumbai,
 Manipur,Tamenglong,0.15
 Manipur,Imphal East,0.18
 Manipur,Churachandpur,0.25
@@ -384,6 +398,7 @@ Delhi,South West,0.34
 Delhi,South,0.34
 Delhi,North West,0.36
 Delhi,North East,0.22
+Delhi,Central,
 Odisha,Dhenkanal,0.24
 Odisha,Cuttack,0.29
 Odisha,Kendrapara,0.21
@@ -470,6 +485,7 @@ Rajasthan,Dhaulpur,0.25
 Rajasthan,Sirohi,0.29
 Rajasthan,Bharatpur,0.25
 Rajasthan,Dungarpur,0.24
+Rajasthan,Pratapgarh,
 Sikkim,East District,0.28
 Sikkim,West District,0.19
 Sikkim,South District,0.24
@@ -505,6 +521,7 @@ Tamil Nadu,The Nilgiris,0.30
 Tamil Nadu,Krishnagiri,0.39
 Tamil Nadu,Cuddalore,0.27
 Tamil Nadu,Viluppuram,0.27
+Tamil Nadu,Tiruppur,
 Telangana,Medak,0.23
 Telangana,Rangareddy,0.31
 Telangana,Mahbubnagar,0.25

@@ -99,13 +99,17 @@ def format_lines(lines):
             split_line.pop(0)
         split_lines.append(split_line)
 
-    dropped = 0
+    dropped = []
     dicts = []
     for split_line in split_lines:
-        if len(split_line) < 9:
-            dropped += 1
-            continue
         line_dict = {}
+        if len(split_line) < 9:
+            dropped.append(split_line)
+            line_dict["district"] = split_line[0]
+            line_dict["state"] = split_line[-1]
+            line_dict["gini"] = None
+            dicts.append(line_dict)
+            continue
         if split_line[-1].replace(" ", "").isalpha():
             line_dict["district"] = split_line[0]
             line_dict["state"] = split_line[-1]
@@ -141,12 +145,5 @@ with open("output/districts_gini.csv", "w", newline="") as file:
     writer.writeheader()
     for line in dicts_districts:
         writer.writerow(line)
-print("Dropped", dropped_districts, "districts without Gini data.")
-
-dicts_states_uts, dropped_states_uts = format_lines(states_uts_lines)
-with open("output/states_uts_gini.csv", "w", newline="") as file:
-    writer = csv.DictWriter(file, fieldnames=["state", "gini"])
-    writer.writeheader()
-    for line in dicts_states_uts:
-        writer.writerow(line)
-print("Dropped", dropped_states_uts, "states or UTs without Gini data.")
+print(len(dropped_districts), "districts have no Gini data:")
+print(*[line[0] + ", " + line[-1] for line in dropped_districts], sep="\n")
