@@ -53,7 +53,7 @@ gwq_nsdp.to_csv("output/gwq_nsdp.csv", index=False)
 gini = pd.read_csv("output/districts_gini.csv")
 gini["state"] = gini["state"].str.title()
 gini["district"] = gini["district"].str.title()
-
+gwq_nsdp=gwq_nsdp[gwq_nsdp['year']==2010]
 # print(set(gwq_nsdp['state']) - set(gini['state']))
 
 # gini_temp = gini.rename(columns={"district": "district_gini", "state": "state_gini"})
