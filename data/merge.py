@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-# pd.set_option('display.max_rows', None)
+pd.set_option('display.max_rows', None)
 
 GWQ_NAME = "hardnesstotal"
 INFER_GINI = True  # Infer Gini for districts broken into multiple districts
@@ -9,6 +9,15 @@ INFER_GINI = True  # Infer Gini for districts broken into multiple districts
 gwq = pd.read_csv("input/GWQ.csv")
 gwq["state"] = gwq["state"].str.title()
 gwq["district"] = gwq["district"].str.title()
+
+# Find duplicate (state, district) rows in GWQ
+dupes = gwq[gwq.duplicated(subset=["state", "dyid"], keep=False)][["state", "district"]].drop_duplicates()
+print("Districts duplicated in GWQ.csv:")
+print(dupes.reset_index(drop=True))
+
+# Remove duplicate rows for amiguity
+gwq.drop_duplicates(subset=["state", "dyid"], inplace=True, keep=False)
+dupes = gwq[gwq.duplicated(subset=["state", "dyid"], keep=False)][["state", "district"]].drop_duplicates()
 
 nsdps = pd.read_csv("input/NSDPs.csv")
 nsdps = pd.melt(nsdps, id_vars=["YEAR"], var_name="state", value_name="nsdp")
@@ -23,8 +32,8 @@ state_mapping = {
     "Orissa": "Odisha",
     "Andaman & Nicobar Islands": "Andaman And Nicobar Islands",
 }
-gwq["state"].replace(state_mapping, inplace=True)
-nsdps["state"].replace(state_mapping, inplace=True)
+gwq["state"] = gwq["state"].replace(state_mapping)
+nsdps["state"] = nsdps["state"].replace(state_mapping)
 # nsdps.drop(nsdps.loc[(nsdps["year"] < 2000) | (nsdps["year"] > 2018)].index, inplace=True)
 # print(set(gwq['state']) - set(nsdps['state']))
 
@@ -53,7 +62,7 @@ gwq_nsdp.to_csv("output/gwq_nsdp.csv", index=False)
 gini = pd.read_csv("output/districts_gini.csv")
 gini["state"] = gini["state"].str.title()
 gini["district"] = gini["district"].str.title()
-gwq_nsdp=gwq_nsdp[gwq_nsdp['year']==2010]
+# gwq_nsdp=gwq_nsdp[gwq_nsdp['year']==2010]
 # print(set(gwq_nsdp['state']) - set(gini['state']))
 
 # gini_temp = gini.rename(columns={"district": "district_gini", "state": "state_gini"})
@@ -69,6 +78,7 @@ gwq_nsdp=gwq_nsdp[gwq_nsdp['year']==2010]
 with open("data/district_mapping.json", "r") as file:
     DISTRICT_MAPPING = json.load(file)
 alias_dupes = []
+renamed_old = []
 for state, districts in DISTRICT_MAPPING.items():
     for district, aliases in districts.items():
         if type(aliases) == str:
@@ -76,6 +86,7 @@ for state, districts in DISTRICT_MAPPING.items():
         if not INFER_GINI:
             aliases = [aliases[0]]  # Spelling only
         # Add duplicate rows for each row for each alias into gini 
+        renamed_old.append(district)
         for alias in aliases:
             # print(state, district, alias)
             alias_dupes.append(pd.DataFrame({
@@ -83,6 +94,7 @@ for state, districts in DISTRICT_MAPPING.items():
                 'district': alias,
                 'gini': gini.loc[(gini['state'] == state) & (gini['district'] == district)]['gini']
             }))
+gini.drop(gini[gini['district'].isin(renamed_old)].index, inplace=True)
 gini = pd.concat([gini] + alias_dupes)
 
 gini_temp = gini.rename(columns={"district": "district_gini", "state": "state_gini"})
