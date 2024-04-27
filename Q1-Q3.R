@@ -39,7 +39,7 @@ resid_hist <- hist(on_nsdp$residuals,
 
 
 print(summary(on_nsdp))
-cat("Sum of residuals:", sum(on_nsdp$residuals), "(CaCO3, mg/L)")
+cat("Sum of residuals:", sum(on_nsdp$residuals), "(CaCO3, mg/L)\n")
 print(hardness_nsdp_plot)
 print(residuals_nsdp_plot)
 print(resid_hist)
