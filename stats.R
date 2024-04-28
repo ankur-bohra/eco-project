@@ -3,8 +3,16 @@ library(readr)
 library(scales)
 
 gini_gwq_nsdp <- read_csv("output/gini_gwq_nsdp.csv")
+gwq <- na.omit(gini_gwq_nsdp$hardnesstotal)
 gini_gwq_nsdp <- na.omit(gini_gwq_nsdp)
 gini_gwq_nsdp <- gini_gwq_nsdp[gini_gwq_nsdp$hardnesstotal > 0,]
+
+districts_gini <- read_csv("output/districts_gini.csv")
+districts_gini <- na.omit(districts_gini)
+
+nsdps <- read_csv("input/NSDPs.csv")
+nsdps <- unlist(nsdps[2:34])
+nsdps <- nsdps[!is.na(nsdps)]
 
 # Total hardness
 hardness_plot <- ggplot(gini_gwq_nsdp, aes(x="", y=hardnesstotal)) +
@@ -25,12 +33,12 @@ hardness_plot <- ggplot(gini_gwq_nsdp, aes(x="", y=hardnesstotal)) +
 print(hardness_plot)
 
 cat("Total hardness statistics\n")
-hardness_quantiles <- quantile(gini_gwq_nsdp$hardnesstotal, probs=c(0.25, 0.5, 0.75, 0.95))
-acceptable <- mean(gini_gwq_nsdp$hardnesstotal <= 200) * 100
-permissible <- mean(gini_gwq_nsdp$hardnesstotal <= 600) * 100
-impermissible <- mean(gini_gwq_nsdp$hardnesstotal > 600) * 100
-mean_impermissible_hardness <- mean(gini_gwq_nsdp$hardnesstotal[impermissible])
-cat("Mean total hardness:", mean(gini_gwq_nsdp$hardnesstotal), "mg/L\n")
+hardness_quantiles <- quantile(gwq, probs=c(0.25, 0.5, 0.75, 0.95))
+acceptable <- mean(gwq <= 200) * 100
+permissible <- mean(gwq <= 600) * 100
+impermissible <- mean(gwq > 600) * 100
+mean_impermissible_hardness <- mean(gwq[impermissible])
+cat("Mean total hardness:", mean(gwq), "mg/L\n")
 cat("Districts with acceptable total hardness (%):", acceptable, "%\n")
 cat("Districts with permissible total hardness (%):", permissible, "%\n")
 cat("Districts with impermissible total hardness (%):", impermissible, "%\n")
@@ -41,14 +49,14 @@ cat("\n")
 
 # NSDP
 cat("NSDP statistics\n")
-nsdp_quantiles <- quantile(unique(gini_gwq_nsdp$nsdp), probs=c(0.25, 0.5, 0.75, 0.95))
-cat("Mean NSDP:", mean(gini_gwq_nsdp$hardnesstotal), " (Rupees Crore)\nNSDP quantiles:\n")
+nsdp_quantiles <- quantile(nsdps, probs=c(0.25, 0.5, 0.75, 0.95))
+cat("Mean NSDP:", mean(nsdps), " (Rupees Crore)\nNSDP quantiles:\n")
 print(nsdp_quantiles)
 cat("\n")
 
 # Gini
 cat("Gini index statistics\n")
-gini_quantiles <- quantile(unique(gini_gwq_nsdp$gini), probs=c(0.25, 0.5, 0.75, 0.95))
-cat("Mean gini index:", mean(gini_gwq_nsdp$gini), "\nGini index quantiles:\n")
+gini_quantiles <- quantile(districts_gini$gini, probs=c(0.25, 0.5, 0.75, 0.95))
+cat("Mean gini index:", mean(districts_gini$gini), "\nGini index quantiles:\n")
 print(gini_quantiles)
 cat("\n")
