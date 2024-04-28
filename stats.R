@@ -4,6 +4,7 @@ library(scales)
 
 gini_gwq_nsdp <- read_csv("output/gini_gwq_nsdp.csv")
 gini_gwq_nsdp <- na.omit(gini_gwq_nsdp)
+gini_gwq_nsdp <- gini_gwq_nsdp[gini_gwq_nsdp$hardnesstotal > 0,]
 
 # Total hardness
 hardness_plot <- ggplot(gini_gwq_nsdp, aes(x="", y=hardnesstotal)) +
