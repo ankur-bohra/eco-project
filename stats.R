@@ -24,12 +24,12 @@ hardness_plot <- ggplot(gini_gwq_nsdp, aes(x="", y=hardnesstotal)) +
 print(hardness_plot)
 
 cat("Total hardness statistics\n")
-hardness_quantiles <- quantile(gini_gwq_nsdp$hardnesstotal)
+hardness_quantiles <- quantile(gini_gwq_nsdp$hardnesstotal, probs=c(0.25, 0.5, 0.75, 0.95))
 acceptable <- mean(gini_gwq_nsdp$hardnesstotal <= 200) * 100
 permissible <- mean(gini_gwq_nsdp$hardnesstotal <= 600) * 100
 impermissible <- mean(gini_gwq_nsdp$hardnesstotal > 600) * 100
 mean_impermissible_hardness <- mean(gini_gwq_nsdp$hardnesstotal[impermissible])
-cat("Mean total hardness:", mean(gini_gwq_nsdp$hardnesstotal), "mg/L")
+cat("Mean total hardness:", mean(gini_gwq_nsdp$hardnesstotal), "mg/L\n")
 cat("Districts with acceptable total hardness (%):", acceptable, "%\n")
 cat("Districts with permissible total hardness (%):", permissible, "%\n")
 cat("Districts with impermissible total hardness (%):", impermissible, "%\n")
@@ -40,14 +40,14 @@ cat("\n")
 
 # NSDP
 cat("NSDP statistics\n")
-nsdp_quantiles <- quantile(unique(gini_gwq_nsdp$nsdp))
+nsdp_quantiles <- quantile(unique(gini_gwq_nsdp$nsdp), probs=c(0.25, 0.5, 0.75, 0.95))
 cat("Mean NSDP:", mean(gini_gwq_nsdp$hardnesstotal), " (Rupees Crore)\nNSDP quantiles:\n")
 print(nsdp_quantiles)
 cat("\n")
 
 # Gini
 cat("Gini index statistics\n")
-gini_quantiles <- quantile(unique(gini_gwq_nsdp$gini))
+gini_quantiles <- quantile(unique(gini_gwq_nsdp$gini), probs=c(0.25, 0.5, 0.75, 0.95))
 cat("Mean gini index:", mean(gini_gwq_nsdp$gini), "\nGini index quantiles:\n")
 print(gini_quantiles)
 cat("\n")
