@@ -1,6 +1,7 @@
 library(ggplot2)
 library(readr)
 library(scales)
+library(data.table)
 
 gini_gwq_nsdp <- read_csv("output/gini_gwq_nsdp.csv")
 gini_gwq_nsdp <- na.omit(gini_gwq_nsdp)
@@ -9,7 +10,7 @@ on_nsdp_quad_gini <- lm(formula=hardnesstotal ~ nsdp + I(nsdp**2) + gini, data=g
 on_nsdp_poly_gini <- lm(formula=hardnesstotal ~ nsdp + I(nsdp**2) + I(nsdp**3) + gini, data=gini_gwq_nsdp)
 print(summary(on_nsdp_quad_gini))
 print(summary(on_nsdp_poly_gini))
-# exit()
+
 coefs_poly = coef(on_nsdp_poly_gini)
 f <- function(x){coefs_poly[1] + coefs_poly[2]*x + coefs_poly[3]*x^2 + coefs_poly[4]*x^3}
 coefs_quad = coef(on_nsdp_quad_gini)
@@ -96,9 +97,16 @@ dev.off()
 print(gini_trend_plot)
 
 outlier_pts <- gini_gwq_nsdp[abs(model_rstudents) > 3,]
+outlier_pts_dt <- setDT(outlier_pts)
 influential_pts <- gini_gwq_nsdp[beta_infl_obs_idx | fit_infl_obs_idx,]
+influential_pts_dt <- setDT(influential_pts)
 
-cat("\n\nInfluential points count by district:\n")
+cat("\n\nInfluential points:\n")
+df <- influential_pts[with(influential_pts, order(state, district, year, hardnesstotal))][, c("state", "district", "year", "hardnesstotal")]
+print(nrow(df))
+print(df, nrow=nrow(df)*ncol(df))
+
+cat("Influential points count by district:\n")
 district_influence <- aggregate(hardnesstotal ~ state + district, influential_pts, NROW)
 district_influence <- district_influence[with(district_influence, order(state, district)),]
 district_influence$n_inflpts <- district_influence$hardnesstotal
@@ -112,7 +120,10 @@ state_influence$n_inflpts <- state_influence$hardnesstotal
 state_influence$hardnesstotal <- NULL
 print(state_influence)
 
-cat("\n\nOutlier count by district:\n")
+cat("\n\nOutliers:\n")
+print(outlier_pts[with(outlier_pts, order(state, district, year, hardnesstotal))][, c("state", "district", "year", "hardnesstotal")])
+
+cat("Outlier count by district:\n")
 district_outliers <- aggregate(hardnesstotal ~ state + district, outlier_pts, NROW)
 district_outliers <- district_outliers[with(district_outliers, order(state, district)),]
 district_outliers$n_outliers <- district_outliers$hardnesstotal

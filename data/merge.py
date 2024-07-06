@@ -24,6 +24,8 @@ nsdps = pd.melt(nsdps, id_vars=["YEAR"], var_name="state", value_name="nsdp")
 nsdps.rename(columns={"YEAR": "year"}, inplace=True)
 nsdps["state"] = nsdps["state"].str.title()
 
+nsdps.to_csv("output/NSDPs.csv")
+
 # print(set(gwq['state']) - set(nsdps['state']))
 state_mapping = {
     "Puducherry": "Pondicherry",
